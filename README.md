@@ -1,5 +1,5 @@
 # amaranthine.vip
-i dont give a shit 
+YOUR NOT SUPPOSED BE HERE I THINK YOUR LIVING IN A DREAM
 
                                                           █████                                                               
                                                         ███   ███                                                             
