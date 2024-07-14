@@ -1,5 +1,5 @@
 # amaranthine.vip
-YOUR NOT SUPPOSED BE HERE I THINK YOUR LIVING IN A DREAM
+YOUR NOT SUPPOSED BE HERE ARE WE LIVING IN A DREAM
 
                                                           █████                                                               
                                                         ███   ███                                                             
